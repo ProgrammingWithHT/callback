@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const CryptoJS = require('crypto-js');
 const DecryptedPayment = require('./models/decryptedPayment');
 require('dotenv').config();
 const connectDB = require('./config/db');
@@ -12,6 +13,29 @@ connectDB();
 app.use(cors({
     origin: '*'
 }));
+
+// Decrypt function for callback
+const decrypt = (encryptedSecret, salt) => {
+    const bytes = CryptoJS.AES.decrypt(encryptedSecret, salt);
+    return bytes.toString(CryptoJS.enc.Utf8);
+};
+
+// Parse JWT function
+const parseJwt = (bearerToken) => {
+    if (!bearerToken.startsWith('Bearer ')) {
+        console.error('Invalid authorization format');
+        return { error: 'Invalid authorization format' };
+    }
+
+    const token = bearerToken.slice(7);
+    try {
+        const decodedToken = jwt.decode(token);
+        return decodedToken;
+    } catch (error) {
+        console.error('Error decoding the token:', error.message);
+        return { error: 'Token is not valid' };
+    }
+};
 
 
 app.use(express.json({ extended: true }));
