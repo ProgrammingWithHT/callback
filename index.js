@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const CryptoJS = require('crypto-js');
+const jwt = require('jsonwebtoken');
 const DecryptedPayment = require('./models/decryptedPayment');
 require('dotenv').config();
 const connectDB = require('./config/db');
@@ -46,6 +47,7 @@ app.get("/", (req,res)=>{
 })
 
 app.post("/api/nfg/callback", async (req,res)=>{
+    console.log('hi')
     try {
         console.log(req.body);
         const { body, headers } = req;
