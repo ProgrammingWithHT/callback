@@ -43,7 +43,13 @@ app.use(express.json({ extended: true }));
 
 
 app.get("/", (req,res)=>{
+    console.log('kasaho')
     res.json({success: true})
+})
+
+app.get("/api/nfg/callback", (req,res)=>{
+    console.log('hiiii',req)
+    res.json(req)
 })
 
 app.post("/api/nfg/callback", async (req,res)=>{
