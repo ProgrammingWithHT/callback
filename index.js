@@ -47,12 +47,8 @@ app.get("/", (req,res)=>{
     res.json({success: true})
 })
 
-app.get("/api/nfg/callback", (req,res)=>{
-    console.log('hiiii',req)
-    res.json(req)
-})
 
-app.post("/api/nfg/callback", async (req,res)=>{
+app.get("/api/nfg/callback", async (req,res)=>{
     console.log('hi')
     try {
         console.log(req.body);
